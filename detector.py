@@ -89,11 +89,15 @@ class Detector():
             return
         # Scan for cuda compatible GPU for ESRGAN. Mask-RCNN *should* automatically use a GPU if available.
         self.hardware = 'cpu'
-        if self.model.check_cuda_gpu()==True:
-            #NOTE: Edit this because I am having cuda errors :(
-            # print("CUDA-compatible GPU located! ****DEBUG CPU MODE****")
-            print("CUDA-compatible GPU located!")
-            self.hardware = 'cuda'
+        if self.model.check_gpu()[0]==True:
+            # No DirectML support for PyTorch (ESRGAN) here because Microsoft somehow decided to compile it against numpy 1.22.x, which has the ABI 0xe, whereas the current official PyTorch PyPI package (1.11 lol) still compatible with 1.18.x (ABI 0xd).
+            # Weird right? Also PyTorch DirectML is still in experimental state anyway so meh
+            print("CUDA/DML compatible GPU located!")
+            if (self.model.check_gpu()[1] != 'cuda'):
+                print("""NOTE: Falling back to CPU execution for ESRGAN since DirectML backend for PyTorch is not compatible with numpy 1.18.x, which Tensorflow 1.15 requires.""")
+                self.hardware = 'cpu'
+            else:
+                self.hardware = 'cuda'
         # destroy model. Will re init during weight load.
         self.model = []
 

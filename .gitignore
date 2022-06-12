@@ -2,6 +2,7 @@
 datasets/
 logs/
 *.h5
+*.pth
 results/
 temp/
 test/

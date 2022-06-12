@@ -1,3 +1,6 @@
+This is my fork of hent-AI that has DirectML backend support
+
+
 # Detecting censors with deep learning and computer vision
 
 Illustrated adult content created in Japan is required to be censored by law. Two common types of censoring involves censor bars and mosaic blurs. For us degenerates living outside of Japan, this means we are also subject to the bars and mosaics. There is a solution, [DeepCreamPy](https://github.com/deeppomf/DeepCreamPy) by deeppomf that can draw over the censors, given that you tell it where the censors are. That is a long and painstaking process, so I hope to automate that process with this project. This project will utilize deep learning and image segmentation, techniques typically used in autonomous vehicles and computer vision tasks. New for 1.6.3, we added ESRGAN as an alternative to DeepCreamPy, which will also decensor a mosaic image/video after the detection.
@@ -23,7 +26,9 @@ Examples of mosaic detection on model 236:
 For both of those examples, the newest model 161 provides far more accurate masks and detection.
 
 # Getting Started
-You will need all the same requirements as matterport's Mask RCNN implementation, nothing more. Note that I am using tensorflow 1.8.0, tensorflow-gpu 1.9.0, torch 0.4.1, and keras 2.2.0. I have not fully tested the stability of newer combinations. I use Anaconda3 for my command line. 
+You will need all the same requirements as matterport's Mask RCNN implementation, nothing more. Note that ~~I am using tensorflow 1.8.0, tensorflow-gpu 1.9.0, torch 0.4.1, and keras 2.2.0. I have not fully tested the stability of newer combinations. I use Anaconda3 for my command line.~~
+
+Message from the forker: You can use newer combination such as tensorflow 1.15, torch 1.x and keras 2.3.1 as those will have full compatibility with old codebase and model. (I ran a couple of inferences myself and see no problem with it)
 
 Only windows is supported for the executable. You can pull this code for linux.
 
@@ -114,7 +119,7 @@ Here is an example of a screentoned image, and what it looks like when removed b
 
 * The model supports mosaics and bars, but it really struggles when both are used on the same spot. Also, DCP can only generate for bars or mosaics, so you will need to keep mosaic censoring works separate from bar censored works. If you must decensor images with both, I  suggest decensoring the bars on one run, then the mosaics on a seconds run.
 
-* CUDA compatible Nvidia GPUs are reccommended for large amounts of images, or videos. If you don't have one, refer to the [colab notebook](hent_AI_COLAB_1.ipynb).
+* CUDA compatible Nvidia GPUs are reccommended for large amounts of images, or videos. If you don't have one or you have an AMD/Intel GPU, you can either use the DirectML backend, or refer to the [colab notebook](hent_AI_COLAB_1.ipynb) if your GPU is too weak.
 
 * The Video Maker button creates a video from the output of DCP in decensored_output. Run this after DCP completes. Note you still need to select the directories for the source video, and the DCP install directory.
 
@@ -151,6 +156,8 @@ Here is an example of a screentoned image, and what it looks like when removed b
 * [1.6.9b](): Hotfix for ESRGAN and ESRGAN video. Fixed bug with the .ini. Note: .exe is unaffected, so no need for another version.
 
 * [1.6.9c](): Hotfix for image and mosaic decensoring for colab. Note: .exe is unaffected, so no need for another version.
+
+* [1.6.10](): Provide support for DirectML backend of Tensorflow. PyTorch DirectML is not supported (for now). Please use the CPU version instead.
 
 
 ## Installation directions

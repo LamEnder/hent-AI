@@ -2718,8 +2718,9 @@ class MaskRCNN():
         return outputs_np
 
     # Function written by Nathan Cueto to utilize this import of tf to find cuda compatible gpu if available
-    def check_cuda_gpu(self):
-        return tf.test.is_gpu_available()
+    # A little bit of refactoring to provide preliminary support for DirectML device
+    def check_gpu(self):
+        return tf.test.is_gpu_available(), tf.test.gpu_device_name().split(':')[1]
 
     # Another function written by Nathan to unload the model
     def unload_model(self):
